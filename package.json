@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-asset-sizes-shim",
-  "version": "0.0.0-beta.1",
+  "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {
     "doc": "doc",
