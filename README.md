@@ -1,6 +1,13 @@
 # Ember-cli-asset-sizes-shim
 
-This README outlines the details of collaborating on this Ember addon.
+
+- list vendor modules and size / gzip / gzip + min (ordered by size)
+- size of modules added to an app by an addon (per addon) (size / gzip / gzip + min)
+- list final build sizes for JS/CSS (size / gzip / gzip + min)
+- list other assets by size
+- list sizes at build time
+- detect js/css payload size regressions
+
 
 ## Installation
 
