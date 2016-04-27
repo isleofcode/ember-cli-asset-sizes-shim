@@ -1,6 +1,6 @@
 /* jshint node: true */
 'use strict';
-var analyzePath = require('./helpers/analyze-path');
+var analyzePath = require('./lib/helpers/analyze-path');
 
 function loopFiles(files) {
   for (var outputFileName in files) {
