@@ -65,9 +65,7 @@ module.exports = {
     console.log(chalk.white('\nAsset Analytics') + chalk.grey('\n––––––––––––––––––––––––––––'));
 
     assetCache._options.root = this.project.root;
-    assetCache.forEach(function(addon) {
-      addon.analyze();
-    });
+    assetCache.analyze();
 
     if (assetCache._options.logAssets) {
       console.log(chalk.white('\nFinal Build Analytics\n=================='));
