@@ -69,9 +69,27 @@ module.exports = {
 
     if (assetCache._options.logAssets) {
       console.log(chalk.white('\nFinal Build Analytics\n=================='));
+      var logs = [];
+
       analyze(result.directory, result.directory, function(info) {
-        logFile(info);
+        logs.push(info);
       });
+
+      logs.sort(function compare(a, b) {
+        if (a.stats.size > b.stats.size) {
+          return -1;
+        }
+        if (a.stats.size < b.stats.size) {
+          return 1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+
+      logs.forEach(function(log) {
+        logFile(log);
+      });
+
     }
 
   }
