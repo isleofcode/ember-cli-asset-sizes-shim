@@ -5,7 +5,6 @@ var analyze = require('./lib/helpers/analyze-path');
 var logFile = require('./lib/helpers/log-file-stats');
 var path = require('path');
 var BuildCommand = require('./lib/commands/build');
-var analyzeAddon = require('./lib/helpers/analyze-addon');
 
 module.exports = {
   name: 'ember-cli-asset-sizes-shim',
@@ -49,37 +48,33 @@ module.exports = {
     We use output ready to do the analysis so that we have access to the final build as well.
    */
   outputReady: function(result) {
-    // bail if we have no shim or process flags
-    if (!this.app._wasShimmedForStats || !process._flags) {
+
+    // bail out if we have no shim
+    if (!this.app._wasShimmedForStats) {
       return;
     }
 
-    var shouldAnalyzeAssests = process._flags.assetSizes;
-    var assetToTrace = process._flags.traceAsset;
+    var assetCache = this.app.__cacheForAssetStats;
 
     // bail if the user didn't wan't us to log or trace anything
-    if (!shouldAnalyzeAssests && !assetToTrace) {
+    if (!assetCache.isActive) {
       return;
     }
 
     // asset analytics
-    var AssetCache = this.app._assetAnalytics;
-    var root = this.project.root;
-
     console.log(chalk.white('\nAsset Analytics') + chalk.grey('\n––––––––––––––––––––––––––––'));
 
-    Object.keys(AssetCache).forEach(function(addon) {
-      analyzeAddon(addon, AssetCache[addon], {
-        shouldLog: addon === assetToTrace,
-        root: root
+    assetCache._options.root = this.project.root;
+    assetCache.forEach(function(addon) {
+      addon.analyze();
+    });
+
+    if (assetCache._options.logAssets) {
+      console.log(chalk.white('\nFinal Build Analytics\n=================='));
+      analyze(result.directory, result.directory, function(info) {
+        logFile(info);
       });
-    });
-
-    console.log(chalk.white('\nFinal Build Analytics\n=================='));
-    analyze(result.directory, result.directory, function(info) {
-      logFile(info);
-    });
-
+    }
 
   }
 
