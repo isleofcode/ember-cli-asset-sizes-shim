@@ -5,7 +5,8 @@ var analyze = require('./lib/helpers/analyze-path');
 var logFile = require('./lib/helpers/log-file-stats');
 var path = require('path');
 var BuildCommand = require('./lib/commands/build');
-var shim = require('./lib/shim');
+var shimApp = require('./lib/shim-app');
+var shimAddonModel = require('./lib/shim-addon-model');
 
 module.exports = {
   name: 'ember-cli-asset-sizes-shim',
@@ -36,7 +37,6 @@ module.exports = {
 
     // bail if the user didn't wan't us to log or trace anything
     if (!assetCache.isActive) {
-      console.log('bailing because inactive');
       return;
     }
 
@@ -79,9 +79,12 @@ module.exports = {
     }
 
     var pathToApp = path.join(this.project.root, 'node_modules/ember-cli/lib/broccoli/ember-app');
+    var pathToAddonModel = path.join(this.project.root, 'node_modules/ember-cli/lib/models/addon');
     var EmberApp = require(pathToApp);
+    var Addon = require(pathToAddonModel);
 
-    shim(EmberApp);
+    var assetCache = shimApp(EmberApp);
+    shimAddonModel(Addon, assetCache);
   }
 
 };

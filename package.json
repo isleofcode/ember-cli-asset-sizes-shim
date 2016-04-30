@@ -30,14 +30,19 @@
     "ember-addon"
   ],
   "dependencies": {
+    "amd-name-resolver": "0.0.5",
     "broccoli-babel-transpiler": "^5.5.0",
+    "broccoli-concat": "^2.2.0",
+    "broccoli-funnel": "^1.0.1",
     "broccoli-merge-trees": "^1.1.1",
     "broccoli-plugin": "^1.2.1",
     "chalk": "^1.1.3",
     "clean-css": "^3.4.12",
     "cli-table": "^0.3.1",
     "debug": "^2.2.0",
+    "ember-cli-preprocess-registry": "^3.0.0",
     "filesize": "^3.3.0",
+    "lodash": "^4.11.1",
     "rsvp": "^3.2.1",
     "uglify-js": "^2.6.2"
   },
