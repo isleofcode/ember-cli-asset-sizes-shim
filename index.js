@@ -1,10 +1,10 @@
 /* jshint node: true */
 'use strict';
 var chalk = require('chalk');
-var analyze = require('./lib/helpers/analyze-path');
+var analyzePath = require('./lib/helpers/analyze-path');
 var logFile = require('./lib/helpers/log-file-stats');
 var path = require('path');
-var BuildCommand = require('./lib/commands/build');
+var AssetSizesCommand = require('./lib/commands/asset-sizes');
 var shimApp = require('./lib/shim-app');
 var shimAddonModel = require('./lib/shim-addon-model');
 
@@ -16,7 +16,7 @@ module.exports = {
    */
   includedCommands: function() {
     return {
-      build: BuildCommand
+      'asset-sizes': AssetSizesCommand
     }
   },
 
@@ -25,7 +25,7 @@ module.exports = {
    Make sure this returns false before publishing
    */
   isDevelopingAddon: function() {
-    return true;
+    return false;
   },
 
 
@@ -50,9 +50,9 @@ module.exports = {
       console.log(chalk.white('\nFinal Build Analytics\n=================='));
       var logs = [];
 
-      analyze(result.directory, result.directory, function(info) {
+      analyzePath(result.directory, result.directory, function(info) {
         logs.push(info);
-      });
+      }, { minify: false });
 
       logs.sort(function compare(a, b) {
         if (a.stats.size > b.stats.size) {
